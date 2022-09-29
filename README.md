@@ -38,13 +38,26 @@ npm install jsquizizz
     - **Functions**
         <table><thead><tr><th>Type<th>Method<th>Parameters<th>Returns<th>Description<th>Example<tbody><tr><td>
 
-        `static`<td>`getByID`<td><td>`Promise<MemeSet>`<td>Gets a MemeSet via it's ID<td>
+        `static`<td>`getByID`<td>
+        | **Parameter** | **Type** | **Default** | **Description** |
+        |---------------|----------|-|----------------|
+        | `id`          | `string` | Required | The MemeSet ID  |
+        | `save`        | `boolean`| `false` | Whether to save the memes to memory for faster recall |
+        <td>
+        
+        `Promise<MemeSet>`<td>Gets a MemeSet via it's ID<td>
         ```js
         await MemeSet.getByID("abcdef", false) 
         ```
         <tr><td>
 
-        `static`<td>`getFromUser`<td><td>`Promise<MemeSet[]>`<td>Gets a list of MemeSets from a user's ID<td>
+        `static`<td>`getFromUser`<td>
+        | **Parameter** | **Type** | **Description** |
+        |---------------|----------|-----------------|
+        | `id`          | `string` | The User ID     |
+        <td>
+        
+        `Promise<MemeSet[]>`<td>Gets a list of MemeSets from a user's ID<td>
         ```js
         await MemeSet.getFromuser("abcdef")
         ```
@@ -56,7 +69,13 @@ npm install jsquizizz
         ```
         <tr><td>
 
-        `dynamic`<td>`getMemes`<td><td>`Promise<Meme[]>`<td>Gets the memes from the MemeSet<td>
+        `dynamic`<td>`getMemes`<td>
+        | **Parameter** | **Type**  | **Default** | **Description**|
+        |---------------|-----------|-------------|------------------------------------------------------|
+        | `save`        | `boolean` | `false`     | Whether to save the data to memory for faster recall |
+        <td>
+        
+        `Promise<Meme[]>`<td>Gets the memes from the MemeSet<td>
         ```js
         await myMemeSet.getMemes(true)
         ```
