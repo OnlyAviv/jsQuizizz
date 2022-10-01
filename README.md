@@ -327,7 +327,7 @@ npm install jsquizizz
         ```
         </td></tr></tbody></table>
     - **Properties**
-        <table><thead><tr><th>Property</th><th>Types</th><th>Description</th></tr></thead><tbody><tr><td>
+        <table><thead><tr><th>Property</th><th>Types</th><th>Description</th></tr></thead><tbody><tr><td><a id="powerups"></a>
 
         `powerups`</td><td><table><thead><tr><th>Property</th><th>Powerup Title</th><th>Description</th></tr></thead><tbody><tr><td>`double-jeopardy`</td><td>Double Jeopardy</td><td>
         > Players get double points if they choose the answer correctly but lose it all if they choose the wrong answer
@@ -368,8 +368,48 @@ npm install jsquizizz
         This powerup serves no real purpose, as the streak booster is only client side (for points), and we custom set our points in the `options` parameter</td></tr><tr><td>`send-gift`</td><td>Gift</td><td>
         > Players can send another player an extra 800 points
         
-        This powerup requires you to specify the `targets` parameter for the `activatePowerup` method. If you send a player more than 9 gifts in a single question cycle, their game will crash when they try to answer.</td></tr></tbody></table></td><td>The available powerups</td></tr><tr><td>`room`</td><td>`Room` (*See `types.d.ts:78` for `Room` types)</td><td>The game room</td></tr><tr><td>`ia`</td><td>`(number|number[]|string)[]`</td><td>The list of invalid answers for the current question, this array is populated when the following powerups are used: `50-50`, `eraser`, `immunity` </td></tr><tr><td>`name`</td><td>`string`</td><td>The client's name</td></tr><tr><td>`options`</td><td>`object`</td><td>The game options. This object has the same content as the `options` parameter, but fully populated</td></tr><tr><td>`socket`</td><td>`WebSocket`</td><td>The websocket that the client uses to connect to the room</td></tr><tr><td>`index`</td><td>`number`</td><td>The current question's index</td></tr><tr><td>`avatarID`</td><td>`number`</td><td>The client's avatar id</td></tr></tbody></table>
+        This powerup requires you to specify the `targets` parameter for the `activatePowerup` method. If you send a player more than 9 gifts in a single question cycle, their game will crash when they try to answer.</td></tr></tbody></table></td><td>The available powerups</td></tr><tr><td>`room`</td><td>`Room` (*See `types.d.ts:78` for `Room` types*)</td><td>The game room</td></tr><tr><td>`ia`</td><td>`(number|number[]|string)[]`</td><td>The list of invalid answers for the current question, this array is populated when the following powerups are used: `50-50`, `eraser`, `immunity` </td></tr><tr><td>`name`</td><td>`string`</td><td>The client's name</td></tr><tr><td>`options`</td><td>`object`</td><td>The game options. This object has the same content as the `options` parameter, but fully populated</td></tr><tr><td>`socket`</td><td>`WebSocket`</td><td>The websocket that the client uses to connect to the room</td></tr><tr><td>`index`</td><td>`number`</td><td>The current question's index</td></tr><tr><td>`avatarID`</td><td>`number`</td><td>The client's avatar id</td></tr></tbody></table>
     - **Events**
+        <table><thead><tr><th>Event</th><th>Data</th><th>Description</th></tr></thead><tbody><tr><td>
+        
+        `disconnect`</td><td>
+        | Property | Types    | Description           |
+        |----------|----------|-----------------------|
+        | `code`   | `number` | The disconnect code   |
+        | `reason` | `buffer` | The disconnect reason |
+        </td><td>The 
+        
+        `disconnect` event is fired when the client gets disconnected from the websocket</td></tr><tr><td>`start`</td><td>None</td><td>The `start` event is fired when the game has started</td></tr><tr><td>`doneAnswering`</td><td>None</td><td>The `doneAnswering` event is fired when the client has answered all the questions</td></tr><tr><td>`join`</td><td>None</td><td>The `join` event is fired when the client successfully joins the game</td></tr><tr><td>`powerup`</td><td>
+        | Property         | Types                  | Description                                                                                                            |
+        |------------------|------------------------|------------------------------------------------------------------------------------------------------------------------|
+        | `name`           | `string`               | The powerup's name                                                                                                     |
+        | `visibleOptions` | `number[]` `undefined` | The new visible options for the current question. Is always `undefined` unless the powerup used is `50-50` or `eraser` |
+        | `streakChangeBy` | `number`               | The streak boost that the client received. Is always `undefined` unless the powerup used is `streak-booster`           |
+        </td><td>
+
+        The `powerup` event is fired when a powerup has been successfully activated</td></tr><tr><td>`gameEnded`</td><td>[`Leaderboard[]`](#leaderboard)</td><td> The `gameEnded` event is fired when the game has ended</td></tr><tr><td>`kick`</td><td>
+        | Type     | Description     |
+        |----------|-----------------|
+        | `string` | The player's ID |
+        </td><td>
+        
+        The `kick` event is fired when a player has been kicked from the game</td></tr><tr><td>`answer`</td><td><table><thead><tr><th>Property</th><th>Types</th><th>Description</th></tr></thead><tbody><tr><td>`streak`</td><td>
+        | Property        | Types    | Description                             |
+        |-----------------|----------|-----------------------------------------|
+        | `currentStreak` | `number` | The client's current streak             |
+        | `maximumStreak` | `number` | The client's highest streak in the game |
+        </td><td>The client's streak</td></tr><tr><td>
+        
+        `isCorrect`</td><td>`boolean`</td><td>Whether the client was correct or not</td></tr><tr><td>`attempt`</td><td>`number`</td><td>The attempt on the question. (As of my testing, this value is always the same)</td></tr><tr><td>`score`</td><td>`number`</td><td>The client's current score</td></tr><tr><td>`leaderboard`</td><td>[`Leaderboard[]`](#leaderboard)</td><td>The game's current leaderboard</td></tr></tbody></table></td><td>The `answer` event is fired when the client answers a question</td></tr><tr><td>`question`</td><td>
+        | Property           | Types                                   | Description                                                                                              |
+        |--------------------|-----------------------------------------|----------------------------------------------------------------------------------------------------------|
+        | `question`         | [`QuestionContent`](#questioncontent)   | The question query                                                                                       |
+        | `answers`          | [`QuestionContent[]`](#questioncontent) | The answers                                                                                              |
+        | `incorrectAnswers` | `(string\|number[]\|number)[]`          | The incorrect options. This array populates when `immunity` is used, and the question is attempted again |
+        | `type`             | `string`                                | The question type (`MCQ`, `MSQ`, `DRAW`, `MATCH`, `REORDER`, `BLANK`, and a few others)                  |
+        </td><td>
+        
+        The `question` event is fired when the client needs to answer a question. (**It is <u>HIGHLY RECOMMENDED</u> that the `myGame.answer` method is called within the listener for this event**)</td></tr></tbody></table>
 - ### Types
     - <a id="questioncontent"></a> **QuestionContent**
         <table><thead><tr><th>Property</th><th>Types</th><th>Description</th></tr></thead><tbody><tr><td>
@@ -393,9 +433,19 @@ npm install jsquizizz
         | `long`       | `number`  | The longitude of the media             |
         | `heading`    | `string`  | The heading of the media               |
         | `pitch`      | `number`  | The pitch of the media                 |
-</td><td>The media's metadata</td></tr></tbody></table></td><td>The content's media</td></tr><tr><td>`text`</td><td>`string[]` `string`</td><td>The content text</td></tr><tr><td>`hasMath`</td><td>`boolean`</td><td>Whether the content has math</td></tr><tr><td>`math`</td><td>
+        </td><td>The media's metadata</td></tr></tbody></table></td><td>The content's media</td></tr><tr><td>
+
+        `text`</td><td>`string[]` `string`</td><td>The content text</td></tr><tr><td>`hasMath`</td><td>`boolean`</td><td>Whether the content has math</td></tr><tr><td>`math`</td><td>
         | Property   | Types      | Description    |
         |------------|------------|----------------|
         | `latex`    | `string[]` | The latex math |
         | `template` | `string`   | The template   |
+        
         </td><td>The question's latex math</td></tr></tbody></table>
+    - <a id="leaderboard"></a> **Leaderboard**
+        | Property | Types    | Description              |
+        |----------|----------|--------------------------|
+        | `name`   | `string` | The player's name        |
+        | `id`     | `string` | The player's ID          |
+        | `rank`   | `number` | The player's rank        |
+        | `score`  | `number` | The player's final score |
