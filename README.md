@@ -67,7 +67,7 @@ npm install jsquizizz
         `dynamic`<td>`getMemes`<td>
         | **Parameter** | **Type**  | **Default** | **Description**|
         |---------------|-----------|-------------|------------------------------------------------------|
-        | `save`        | `boolean` `false`     | Whether to save the data to memory for faster recall |
+        | `save`        | `boolean` | `false`     | Whether to save the data to memory for faster recall |
         <td>
         
         `Promise<Meme[]>`<td>Gets the memes from the MemeSet<td>
@@ -313,6 +313,48 @@ npm install jsquizizz
         ```
         </td></tr></tbody></table>
     - **Properties**
+        <table><thead><tr><th>Property</th><th>Types</th><th>Description</th></tr></thead><tbody><tr><td>
+
+        `powerups`</td><td><table><thead><tr><th>Property</th><th>Powerup Title</th><th>Description</th></tr></thead><tbody><tr><td>`double-jeopardy`</td><td>Double Jeopardy</td><td>
+        > Players get double points if they choose the answer correctly but lose it all if they choose the wrong answer
+        
+        This powerup serves no real purpose, as we custom set our points in the `options` parameter</td></tr><tr><td>`2x`</td><td>x2</td><td>
+        > Players get twice the points for answering a question right
+        
+        This powerup serves no real purpose, as we custom set our points in the `options` parameter</td></tr><tr><td>`50-50`</td><td>50-50</td><td>
+        > Eliminates half of the incorrect options
+        
+        Adds half of the incorrect options to the `ia` property, and the `incorrectAnswers` property from the `question` event data</td></tr><tr><td>`eraser`</td><td>Eraser</td><td>
+        > Eliminates one wrong option
+        
+        Adds one incorrect option to the `ai` property, and the `incorrectAnswers` property from the `question` event data</td></tr><tr><td>`immunity`</td><td>Immunity</td><td>
+        > 2 attempts are allowed for answering the same question
+        
+        Gives you another attempt to answer the current question if you get it wrong, you can use this as many times as you want</td></tr><tr><td>`time-freeze`</td><td>Time Freeze</td><td>
+        > The timer is frozen to allow players to answer 1 question
+        
+        This powerup serves no real purpose, as we custom set our time in the `options` parameter</td></tr><tr><td>`power-play`</td><td>Power Play</td><td>
+        > All players in the quiz get 50% more points in 20 seconds
+        
+        This powerup applies to all players *except* the client, as the client's points are custom set in the `options` parameter</td></tr><tr><td>`supersonic`</td><td>Supersonic</td><td>
+        > Get 1.5x points for 20 seconds with ultra fast gameplay
+        
+        This powerup serves no real purpose, as we custom set our points in the `options` parameter</td></tr><tr><td>`streak-saver`</td><td>Streak Saver</td><td>
+        > Ensures a player’s streak against an incorrect answer
+        
+        This powerup serves no real purpose, as the streak saver is only client side (for points), and we custom set our points in the `options` parameter</td></tr><tr><td>`glitch`</td><td>Glitch</td><td>
+        > All players' screens glitch for 10 seconds (does not add to scores)
+        
+        Nothing more needs to said about this.</td></tr><tr><td>`add-points`</td><td>+1000pt</td><td>
+        > No description
+        
+        This powerup serves no real purpose, as we custom set our points in the `options` parameter</td></tr><tr><td>`streak-booster`</td><td>Streak Booster</td><td>
+        > Apply to boost your streak counter by +6
+        
+        This powerup serves no real purpose, as the streak booster is only client side (for points), and we custom set our points in the `options` parameter</td></tr><tr><td>`send-gift`</td><td>Gift</td><td>
+        > Players can send another player an extra 800 points
+        
+        This powerup requires you to specify the `targets` parameter for the `activatePowerup` method. If you send a player more than 9 gifts in a single question cycle, their game will crash when they try to answer.</td></tr></tbody></table></td><td>The available powerups</td></tr><tr><td>`room`</td><td>`Room` (*Not documented. See `typed.d.ts` for `Room` typings*)</td><td>The game room</td></tr><tr><td>`ia`</td><td>`(number|number[]|string)[]`</td><td>The list of invalid answers for the current question, this array is populated when the following powerups are used: `50-50`, `eraser`, `immunity` </td></tr><tr><td>`name`</td><td>`string`</td><td>The client's name</td></tr><tr><td>`options`</td><td>`object`</td><td>The game options. This object has the same content as the `options` parameter, but fully populated</td></tr><tr><td>`socket`</td><td>`WebSocket`</td><td>The websocket that the client uses to connect to the room</td></tr><tr><td>`index`</td><td>`number`</td><td>The current question's index</td></tr><tr><td>`avatarID`</td><td>`number`</td><td>The client's avatar id</td></tr></tbody></table>
     - **Events**
 - ### Types
     - **QuestionContent**
