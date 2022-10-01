@@ -11,7 +11,12 @@ This package can be installed using NodeJS's package manager, `npm`.
 npm install jsquizizz
 ```
 
-## Importing
+<details>
+    <summary>Expand
+
+## Importing    
+</summary>
+
 > To use the new esm syntax, set your `type` to `module` in your `package.json`. [Click me](https://nodejs.org/api/packages.html#packages_package_json_and_file_extensions) for more information
 - You can import the entire package into a single variable (***esm***)
     ```js
@@ -27,7 +32,14 @@ npm install jsquizizz
     var Quizizz = await import("jsquizizz")
     ```
 
+</details>
+
+<detail>
+    <summary>Expand
+
 ## Documentation
+</summary>
+
 - ### MemeSet
     Quizizz shows the players memes after every question answered. These memes are stored in MemeSets, and the `MemeSet` class allows us to get these MemeSets
     - **Methods**
@@ -284,7 +296,7 @@ npm install jsquizizz
         |-------------------|----------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
         | `correctPoints`   | `number` | `1000`  | How many points to give the player if they answer correctly. (0-7500)                                                                                                                                                                                |
         | `incorrectPoints` | `number` | `0`     | How many points to give the player if they answer incorrectly. (0-5000)                                                                                                                                                                              |
-        | `time`            | `number` | `0`     | When Quizizz asks the client how long it took to answer, what should the client respond?                                                                                                                                                             |
+        | `time`            | `number` | `1`     | When Quizizz asks the client how long it took to answer, what should the client respond?                                                                                                                                                             |
         | `streakBoost`     | `number` | `6`     | When the `streak-boost` powerup is used, how far should the streak be boosted? (*This parameter is only client-side, and is used for point evaluation, but in our instance, we custom set the points, so this parameter serves **no** real purpose*) |
         </td><td></td><td>The optional parameters for the game</td></tr></tbody></table></td><td>
         
@@ -449,3 +461,6 @@ npm install jsquizizz
         | `id`     | `string` | The player's ID          |
         | `rank`   | `number` | The player's rank        |
         | `score`  | `number` | The player's final score |
+</detail>
+## Examples
+- Event
