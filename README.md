@@ -163,7 +163,14 @@ npm install jsquizizz
         | `hasCorrectAnswer` | `boolean`                                   | Whether the question has a *correct* answer                         |
         </td><td>The quiz's questions</td></tr><tr><td>
         
-        `subjects`</td><td>`string[]`</td><td>The subjects that this quiz is associated with</td></tr><tr><td>`subtopics`</td><td>`string[]`</td><td>The subtopics that this quiz is associated with</td></tr><tr><td>`topics`</td><td>`string[]`</td><td>The topics that this quiz is associated with</td></tr><tr><td>`image`</td><td>`string`</td><td>The quiz's image</td></tr><tr><td>`grades`</td><td>`number[]`</td><td>The grades that this quiz is associated with</td></tr><tr><td>`stats`</td><td>[`Stats`](#Stats)</td><td>The statistics of this quiz</td></tr></tbody></table>
+        `subjects`</td><td>`string[]`</td><td>The subjects that this quiz is associated with</td></tr><tr><td>`subtopics`</td><td>`string[]`</td><td>The subtopics that this quiz is associated with</td></tr><tr><td>`topics`</td><td>`string[]`</td><td>The topics that this quiz is associated with</td></tr><tr><td>`image`</td><td>`string`</td><td>The quiz's image</td></tr><tr><td>`grades`</td><td>`number[]`</td><td>The grades that this quiz is associated with</td></tr><tr><td>`stats`</td><td>
+        | Property         | Types    | Description                                                               |
+        |------------------|----------|---------------------------------------------------------------------------|
+        | `played`         | `number` | The number of times this quiz has been played                             |
+        | `totalPlayers`   | `number` | The total number of players that have played this quiz                    |
+        | `totalCorrect`   | `number` | The total number of correct answers that have been submitted in this quiz |
+        | `totalQuestions` | `number` | The total number of questions that have been answered in this quiz        |
+        </td><td>The statistics of this quiz</td></tr></tbody></table>
 - ### Tag
     User's can tag their quizzes to group them into sections. The `Tag` class can `process` these sections and quizzes
     - **Methods**
@@ -251,7 +258,14 @@ npm install jsquizizz
     - **Properties**
         <table><thead><tr><th>Property</th><th>Types</th><th>Description</th></tr></thead><tbody><tr><td>
         
-        `id`</td><td>`string`</td><td>The user's ID</td></tr><tr><td>`numOfQuizzes`</td><td>`number`</td><td>The number of quizzes that this user has created</td></tr><tr><td>`numOfTags`</td><td>`number`</td><td>The number of tags (or "collections") that this user has created</td></tr><tr><td>`numOfMemeSets`</td><td>`number`</td><td>The number of memesets that this user has created</td></tr><tr><td>`firstName`</td><td>`string`</td><td>The user's first name</td></tr><tr><td>`lastName`</td><td>`string`</td><td>The user's last name</td></tr><tr><td>`username`</td><td>`string`</td><td>The user's username</td></tr><tr><td>`occupation`</td><td>`string`</td><td>The user's occupation</td></tr><tr><td>`avatar`</td><td>`string`</td><td>The user's avatar</td></tr><tr><td>`courses`</td><td>[`Course[]`](#Course)</td><td>The courses that the user is enrolled with</td></tr><tr><td>`organization`</td><td>
+        `id`</td><td>`string`</td><td>The user's ID</td></tr><tr><td>`numOfQuizzes`</td><td>`number`</td><td>The number of quizzes that this user has created</td></tr><tr><td>`numOfTags`</td><td>`number`</td><td>The number of tags (or "collections") that this user has created</td></tr><tr><td>`numOfMemeSets`</td><td>`number`</td><td>The number of memesets that this user has created</td></tr><tr><td>`firstName`</td><td>`string`</td><td>The user's first name</td></tr><tr><td>`lastName`</td><td>`string`</td><td>The user's last name</td></tr><tr><td>`username`</td><td>`string`</td><td>The user's username</td></tr><tr><td>`occupation`</td><td>`string`</td><td>The user's occupation</td></tr><tr><td>`avatar`</td><td>`string`</td><td>The user's avatar</td></tr><tr><td>`courses`</td><td>An array of `Course` objects:
+        | Property       | Types    | Description                      |
+        |----------------|----------|----------------------------------|
+        | `displayName`  | `string` | The display name of this course  |
+        | `internalName` | `string` | The internal name of this course |
+        | `_id`          | `string` | The course's ID                  |
+        | `uniqueName`   | `string` | The unique name of this course   |
+        </td><td>The courses that the user is enrolled with</td></tr><tr><td>`organization`</td><td>
         | Property | Types    | Description                  |
         |----------|----------|------------------------------|
         | `id`     | `string` | The organization ID          |
@@ -354,8 +368,34 @@ npm install jsquizizz
         This powerup serves no real purpose, as the streak booster is only client side (for points), and we custom set our points in the `options` parameter</td></tr><tr><td>`send-gift`</td><td>Gift</td><td>
         > Players can send another player an extra 800 points
         
-        This powerup requires you to specify the `targets` parameter for the `activatePowerup` method. If you send a player more than 9 gifts in a single question cycle, their game will crash when they try to answer.</td></tr></tbody></table></td><td>The available powerups</td></tr><tr><td>`room`</td><td>`Room` (*Not documented. See `typed.d.ts` for `Room` typings*)</td><td>The game room</td></tr><tr><td>`ia`</td><td>`(number|number[]|string)[]`</td><td>The list of invalid answers for the current question, this array is populated when the following powerups are used: `50-50`, `eraser`, `immunity` </td></tr><tr><td>`name`</td><td>`string`</td><td>The client's name</td></tr><tr><td>`options`</td><td>`object`</td><td>The game options. This object has the same content as the `options` parameter, but fully populated</td></tr><tr><td>`socket`</td><td>`WebSocket`</td><td>The websocket that the client uses to connect to the room</td></tr><tr><td>`index`</td><td>`number`</td><td>The current question's index</td></tr><tr><td>`avatarID`</td><td>`number`</td><td>The client's avatar id</td></tr></tbody></table>
+        This powerup requires you to specify the `targets` parameter for the `activatePowerup` method. If you send a player more than 9 gifts in a single question cycle, their game will crash when they try to answer.</td></tr></tbody></table></td><td>The available powerups</td></tr><tr><td>`room`</td><td>`Room` (*See `types.d.ts:78` for `Room` types)</td><td>The game room</td></tr><tr><td>`ia`</td><td>`(number|number[]|string)[]`</td><td>The list of invalid answers for the current question, this array is populated when the following powerups are used: `50-50`, `eraser`, `immunity` </td></tr><tr><td>`name`</td><td>`string`</td><td>The client's name</td></tr><tr><td>`options`</td><td>`object`</td><td>The game options. This object has the same content as the `options` parameter, but fully populated</td></tr><tr><td>`socket`</td><td>`WebSocket`</td><td>The websocket that the client uses to connect to the room</td></tr><tr><td>`index`</td><td>`number`</td><td>The current question's index</td></tr><tr><td>`avatarID`</td><td>`number`</td><td>The client's avatar id</td></tr></tbody></table>
     - **Events**
 - ### Types
-    - **QuestionContent**
-    - **Room**
+    - <a id="questioncontent"></a> **QuestionContent**
+        <table><thead><tr><th>Property</th><th>Types</th><th>Description</th></tr></thead><tbody><tr><td>
+        
+        `type`</td><td>`string`</td><td>The content type</td></tr><tr><td>`media`</td><td><table><thead><tr><th>Property</th><th>Types</th><th>Description</th></tr></thead><tbody><tr><td>`type`</td><td>`string`</td><td>The media type</td></tr><tr><td>`video`</td><td>`string`</td><td>The media's video</td></tr><tr><td>`meta`</td><td>An array of `Media` objects:
+        | Property     | Types     | Description                            |
+        |--------------|-----------|----------------------------------------|
+        | `width`      | `number`  | The media's width                      |
+        | `height`     | `number`  | The media's height                     |
+        | `layout`     | `string`  | The layout of the media                |
+        | `text`       | `string`  | The media's text content               |
+        | `bgColor`    | `string`  | The media's background color           |
+        | `videoId`    | `string`  | The video ID associated with the media |
+        | `start`      | `number`  | The start time of the media            |
+        | `end`        | `number`  | The end time of the media              |
+        | `duration`   | `number`  | How long should the media run for?     |
+        | `kind`       | `string`  | The kind of media                      |
+        | `embeddable` | `boolean` | Whether the media is embeddable        |
+        | `title`      | `string`  | The media's title                      |
+        | `lat`        | `number`  | The latitude of the media              |
+        | `long`       | `number`  | The longitude of the media             |
+        | `heading`    | `string`  | The heading of the media               |
+        | `pitch`      | `number`  | The pitch of the media                 |
+</td><td>The media's metadata</td></tr></tbody></table></td><td>The content's media</td></tr><tr><td>`text`</td><td>`string[]` `string`</td><td>The content text</td></tr><tr><td>`hasMath`</td><td>`boolean`</td><td>Whether the content has math</td></tr><tr><td>`math`</td><td>
+        | Property   | Types      | Description    |
+        |------------|------------|----------------|
+        | `latex`    | `string[]` | The latex math |
+        | `template` | `string`   | The template   |
+        </td><td>The question's latex math</td></tr></tbody></table>
