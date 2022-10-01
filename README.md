@@ -67,7 +67,7 @@ npm install jsquizizz
         `dynamic`<td>`getMemes`<td>
         | **Parameter** | **Type**  | **Default** | **Description**|
         |---------------|-----------|-------------|------------------------------------------------------|
-        | `save`        | `boolean` | `false`     | Whether to save the data to memory for faster recall |
+        | `save`        | `boolean` `false`     | Whether to save the data to memory for faster recall |
         <td>
         
         `Promise<Meme[]>`<td>Gets the memes from the MemeSet<td>
@@ -84,7 +84,7 @@ npm install jsquizizz
     - **Properties**
         <table><thead><tr><th>Property</th><th>Types</th><th>Description</th></tr></thead><tbody><tr><td>
         
-        `id`</td><td>`string`</td><td>The memeset's ID</td></tr><tr><td>`Meme[]`</td><td>`Meme[]` | `undefined`</td><td>Gets the quizzes that the user has created</td></tr><tr><td>`Meme.id`</td><td>`string`</td><td>The meme's ID</td></tr><tr><td>`Meme.setId`</td><td>`string`</td><td>The ID of the memeset that this meme is included in</td></tr><tr><td>`Meme.creatorId`</td><td>`string`</td><td>The ID of the creator of this meme</td></tr><tr><td>`Meme.top`</td><td>
+        `id`</td><td>`string`</td><td>The memeset's ID</td></tr><tr><td>`memes`</td><td>`Meme[]` `undefined`</td><td>Gets the quizzes that the user has created</td></tr><tr><td>`Meme.id`</td><td>`string`</td><td>The meme's ID</td></tr><tr><td>`Meme.setId`</td><td>`string`</td><td>The ID of the memeset that this meme is included in</td></tr><tr><td>`Meme.creatorId`</td><td>`string`</td><td>The ID of the creator of this meme</td></tr><tr><td>`Meme.top`</td><td>
         | Property | Types    | Description                                   |
         |----------|----------|-----------------------------------------------|
         | `text`   | `string` | The text on the top of the meme (May be `""`) |
@@ -116,14 +116,20 @@ npm install jsquizizz
         ```
         </td></tr><tr><td>
         
-        `static`</td><td>`search`</td><td>
-        | Parameter | Type                | Default | Description        |
-        |-----------|---------------------|---------|--------------------|
-        | `query`   | `string`            | `""`    | The search query   |
-        | `filters` | `Object` [`Filter`](#filter) | `{}`    | The search filters |
+        `static`</td><td>`search`</td><td><table><thead><tr><th>Parameter</th><th>Types</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td>`query`</td><td>`string`</td><td>`""`</td><td>The search query</td></tr><tr><td>`filters`</td><td>
+        | Parameter         | Types       | Default | Description                            |
+        |-------------------|-------------|---------|----------------------------------------|
+        | `grade_type.aggs` | `string[]`  | N/A     | The grade types                        |
+        | `subject.aggs`    | `string[]`  | N/A     | The subjects                           |
+        | `lang.aggs`       | `string[]`  | N/A     | The languages                          |
+        | `occupation`      | `string[]`  | N/A     | The creator's occupations              |
+        | `cloned`          | `boolean[]` | N/A     | Whether the quiz is a clone of another |
+        | `isProfane`       | `boolean[]` | N/A     | Whether the quiz is profane            |
+        | `type`            | `string[]`  | N/A     | The type of quiz                       |
+        | `createdBy`       | `string[]`  | N/A     | Who created the quiz                   |
         </td><td>
         
-        `Promise<Quiz[]>`</td><td>Searches for quizzes based on the query and filters</td><td>
+        `{}`</td><td>The search filters</td></tr></tbody></table></td><td>`Promise<Quiz[]>`</td><td>Searches for quizzes based on the query and filters</td><td>
         ```js
         await Quiz.search("apple", {createdBy: ["abcdef"]})
         ```
@@ -259,9 +265,16 @@ npm install jsquizizz
     - **Methods**
         <table><thead><tr><th>Type</th><th>Method</th><th>Parameters</th><th>Returns</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td>
         
-        `dynamic`</td><td>`joinGame`</td><td>
+        `dynamic`</td><td>`joinGame`</td><td><table><thead><tr><th>Parameters</th><th>Types</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td>`pin`</td><td>`string` `number`</td><td>Required</td><td>The room PIN</td></tr><tr><td>`name`</td><td>`string`</td><td>`"jsQuizizz Bot"`</td><td>The name to join the room with</td></tr><tr><td>`avatarID`</td><td>`number`</td><td>`1`</td><td>The ID of the avatar you would like to join with. **TODO: Add Avatar ID's to a new static property within `Game`**</td></tr><tr><td>`options`</td><td>
+        | Parameters        | Types    | Default | Description                                                                                                                                                                                                                                          |
+        |-------------------|----------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | `correctPoints`   | `number` | `1000`  | How many points to give the player if they answer correctly. (0-7500)                                                                                                                                                                                |
+        | `incorrectPoints` | `number` | `0`     | How many points to give the player if they answer incorrectly. (0-5000)                                                                                                                                                                              |
+        | `time`            | `number` | `0`     | When Quizizz asks the client how long it took to answer, what should the client respond?                                                                                                                                                             |
+        | `streakBoost`     | `number` | `6`     | When the `streak-boost` powerup is used, how far should the streak be boosted? (*This parameter is only client-side, and is used for point evaluation, but in our instance, we custom set the points, so this parameter serves **no** real purpose*) |
+        </td><td></td><td>The optional parameters for the game</td></tr></tbody></table></td><td>
         
-        </td><td>`Promise<Nothing>`</td><td>Joins the Quizizz game</td><td>
+        `Promise<Nothing>`</td><td>Joins the Quizizz game</td><td>
         ```js
         await myGame.joinGame(123456, "Not_A_Robot", {
             correctPoints: 1000
@@ -275,13 +288,26 @@ npm install jsquizizz
         ```
         </td></tr><tr><td>
         
-        `dynamic`</td><td>`activatePowerup`</td><td></td><td>`Promise<Nothing>`</td><td>Activates the powerup provided</td><td>
+        `dynamic`</td><td>`activatePowerup`</td><td>
+        | Parameters | Types      | Default  | Description                                                                                                                                          |
+        |------------|------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+        | `pu`       | `string`   | Required | The powerup to use. (See the `myGame.powerups` array for the powerups)                                                                               |
+        | `targets`  | `string[]` | `[]`     | For the `send-gift` powerup, you must specify a list of player IDs as targets. See [powerups](#powerups) for more information on this unique powerup |
+        </td><td>
+        
+        `Promise<Nothing>`</td><td>Activates the powerup provided</td><td>
         ```js
         await myGame.activatePowerup(myGame.powerups["50-50"])
         ```
         </td></tr><tr><td>
         
-        `dynamic`</td><td>`answer`</td><td></td><td>`Promise<Nothing>`</td><td>Answers the current question with the answer provided</td><td>
+        `dynamic`</td><td>`answer`</td><td>
+        | Parameters | Types                      | Default  | Description                        |
+        |------------|----------------------------|----------|------------------------------------|
+        | `answer`   | `string` `number[]` `number` | Required | The answer to the current question |
+        </td><td>
+        
+        `Promise<Nothing>`</td><td>Answers the current question with the answer provided</td><td>
         ```js
         await myGame.answer(1)
         ```
@@ -291,7 +317,3 @@ npm install jsquizizz
 - ### Types
     - **QuestionContent**
     - **Room**
-
-- ### **TODO** *Before* Publish
-    - Document **Filter** into the original spot
-    - Document **GameOptions** into the original spot
