@@ -543,9 +543,4 @@ import { Game } from './src/index.js';
     })
 })();
 ```
-
-<<<<<<< HEAD
 </details>
-=======
-</detail>
->>>>>>> 213d7de12fdb73b99866f2351b7c1035dcb3659a
