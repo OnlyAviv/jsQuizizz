@@ -1,5 +1,5 @@
 # jsQuizizz
-> ## v2.0.0
+> ## v0.0.1
 [![NPM](https://img.shields.io/npm/v/jsquizizz?color=darkcyan&logo=npm&style=for-the-badge&label=Version)](https://nodei.co/npm/jsquizizz/)
 [![GitHub release](https://img.shields.io/github/v/release/redyetidev/jsquizizz?label=version&logo=github&style=for-the-badge)](https://github.com/redyetidev/jsquizizz/releases)
 ---
@@ -544,4 +544,8 @@ import { Game } from './src/index.js';
 })();
 ```
 
+<<<<<<< HEAD
 </details>
+=======
+</detail>
+>>>>>>> 213d7de12fdb73b99866f2351b7c1035dcb3659a
