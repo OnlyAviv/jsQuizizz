@@ -21,12 +21,12 @@ npm install jsquizizz
 > To use the new esm syntax, set your `type` to `module` in your `package.json`. [Click me](https://nodejs.org/api/packages.html#packages_package_json_and_file_extensions) for more information
 - You can import the entire package into a single variable (***esm***)
     ```js
-    import * as Quizizz from 'jsquizziz'
+    import * as Quizizz from 'jsquizizz'
     ```
 
 - You can import certain parts of the package into different variables (***esm***)
     ```js
-    import {MemeSet, Quiz, Tag, User, Game} from 'jsquizziz'
+    import {MemeSet, Quiz, Tag, User, Game} from 'jsquizizz'
     ```
 - You can also import this package into non-esm modules (***commonjs***)
     ```js
