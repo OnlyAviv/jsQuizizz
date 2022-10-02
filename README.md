@@ -1,19 +1,19 @@
 # jsQuizizz
 [![NPM](https://img.shields.io/npm/v/jsquizizz?color=darkcyan&logo=npm&style=for-the-badge&label=Version)](https://nodei.co/npm/jsquizizz/)
+[![GitHub release](https://img.shields.io/github/v/release/redyetidev/jsquizizz?label=version&logo=github&style=for-the-badge)](https://github.com/redyetidev/jsquizizz/releases)
 ---
 ## Overview
 jsQuizizz is a NodeJS Wrapper for the Quizizz API.
 
 ## Installing
-> The package is not uploaded to NPM yet
 This package can be installed using NodeJS's package manager, `npm`.
 ```bash
 npm install jsquizizz
 ```
 
 <details>
-    <summary>Expand
-
+    <summary>
+    
 ## Importing    
 </summary>
 
@@ -34,9 +34,9 @@ npm install jsquizizz
 
 </details>
 
-<detail>
-    <summary>Expand
-
+<details>
+    <summary>
+    
 ## Documentation
 </summary>
 
@@ -314,6 +314,12 @@ npm install jsquizizz
         ```
         </td></tr><tr><td>
         
+        `dynamic`</td><td>`skipQuestion`</td><td>None</td><td>Nothing</td><td>Skips the current question</td><td>
+        ```js
+        myGame.skipQuestion()
+        ```
+        </td></tr><tr><td>
+        
         `dynamic`</td><td>`activatePowerup`</td><td>
         | Parameters | Types      | Default  | Description                                                                                                                                          |
         |------------|------------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -426,7 +432,7 @@ npm install jsquizizz
     - <a id="questioncontent"></a> **QuestionContent**
         <table><thead><tr><th>Property</th><th>Types</th><th>Description</th></tr></thead><tbody><tr><td>
         
-        `type`</td><td>`string`</td><td>The content type</td></tr><tr><td>`media`</td><td><table><thead><tr><th>Property</th><th>Types</th><th>Description</th></tr></thead><tbody><tr><td>`type`</td><td>`string`</td><td>The media type</td></tr><tr><td>`video`</td><td>`string`</td><td>The media's video</td></tr><tr><td>`meta`</td><td>An array of `Media` objects:
+        `type`</td><td>`string`</td><td>The content type</td></tr><tr><td>`media`</td><td>An array of `Media` objects:<table><thead><tr><th>Property</th><th>Types</th><th>Description</th></tr></thead><tbody><tr><td>`type`</td><td>`string`</td><td>The media type</td></tr><tr><td>`video`</td><td>`string`</td><td>The media's video</td></tr><tr><td>`meta`</td><td>
         | Property     | Types     | Description                            |
         |--------------|-----------|----------------------------------------|
         | `width`      | `number`  | The media's width                      |
@@ -458,9 +464,83 @@ npm install jsquizizz
         | Property | Types    | Description              |
         |----------|----------|--------------------------|
         | `name`   | `string` | The player's name        |
-        | `id`     | `string` | The player's ID          |
         | `rank`   | `number` | The player's rank        |
         | `score`  | `number` | The player's final score |
-</detail>
+</details>
+<detail>
+    <summary>
+
 ## Examples
-- Event
+</summary>
+
+- ### A basic Quizziz Game client
+```js
+// The only class we need is Game
+import { Game } from './src/index.js';
+
+// Everything is async, so we make a holder function
+(async function() {
+    // Create a new game
+    const myGame = new Game();
+
+    // setup the events
+    myGame.on("disconnect", data => {
+        console.log(`Oh no! You disconnected with exit code ${data.code}.\n The reason for disconnect was ${data.reason.toString()}`);
+    })
+
+    myGame.on('start', () => console.log("The game is starting"));
+
+    myGame.on("doneAnswering", () => console.log("You answered all the questions!"));
+
+    myGame.on("join", () => console.log("You're in!"));
+
+    myGame.on("powerup", data => {
+        console.log(`You used the ${data.name} powerup!`);
+        if (["50-50","eraser"].includes(data.name)) {
+            console.log(`Now, the possible answers are: ${data.visibleOptions.join(', ')}`)
+        } else if (data.name === "streak-booster") {
+            console.log(`Your streak has been boosted by ${data.streakChangeBy}!`)
+        }
+    });
+
+    myGame.on("gameEnded", data => {
+        data.forEach(leaderboard => {
+            console.log(`${leaderboard.name} finished with a rank of #${leaderboard.rank} and a score of ${leaderboard.score}`)
+        })
+    });
+
+    myGame.on("kick", data => console.log(`${data} was kicked from the game`));
+
+    myGame.on("answer", data => {
+        console.log(`You answered ${data.isCorrect ? "" : "in"}correctly on attempt #${data.attempt}. ${data.score} has been added to your score. Your streak is ${data.streak.currentStreak}.`)
+    });
+
+    myGame.on("question", data => {
+        switch (data.type) {
+            case "MATCH":
+            case "MSQ":
+            case "REORDER":
+                myGame.answer(/* my answer */ Array(data.answers.length).fill(0).map((_0, index) => index))
+                break;
+            case "MCQ":
+                myGame.answer(/* my answer */ 0)
+                break;
+            case "DRAW":
+            case "BLANK":
+                myGame.answer("I <3 RedYetiDev")
+                break;
+            default:
+                console.log(data.type + ": Skipped");
+                myGame.skip();
+        }
+    })
+
+    // join the game
+    myGame.joinGame("560018", "RedYetiDev", 1, {
+        correctPoints: 2000,
+        incorrectPoints: 500
+    })
+})();
+```
+
+</detail>
