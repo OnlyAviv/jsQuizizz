@@ -1,4 +1,5 @@
 # jsQuizizz
+> ## v2.0.0
 [![NPM](https://img.shields.io/npm/v/jsquizizz?color=darkcyan&logo=npm&style=for-the-badge&label=Version)](https://nodei.co/npm/jsquizizz/)
 [![GitHub release](https://img.shields.io/github/v/release/redyetidev/jsquizizz?label=version&logo=github&style=for-the-badge)](https://github.com/redyetidev/jsquizizz/releases)
 ---
@@ -467,7 +468,7 @@ npm install jsquizizz
         | `rank`   | `number` | The player's rank        |
         | `score`  | `number` | The player's final score |
 </details>
-<detail>
+<details>
     <summary>
 
 ## Examples
@@ -543,4 +544,4 @@ import { Game } from './src/index.js';
 })();
 ```
 
-</detail>
+</details>
