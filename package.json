@@ -5,12 +5,12 @@
   "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/RedYetiDev/jsQuizizz.git"
+    "url": "https://github.com/OnlyAviv/jsQuizizz.git"
   },
   "keywords": [
     "Quizizz"
   ],
-  "author": "RedYetiDev",
+  "author": "Aviv Keller",
   "license": "MIT",
   "type": "module",
   "dependencies": {
